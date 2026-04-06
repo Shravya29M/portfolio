@@ -98,7 +98,7 @@ export function GlowCard({
     '--spread': spread,
     '--radius': '14',
     '--border': '2',
-    '--backdrop': 'hsl(0 0% 98% / 0.95)',
+    '--backdrop': 'hsl(240 6% 7% / 0.95)',
     '--backup-border': 'var(--backdrop)',
     '--size': '200',
     '--outer': '1',

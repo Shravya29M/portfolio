@@ -6,7 +6,7 @@ html {
 }
 
 body {
-  @apply bg-[#FAFAFA] text-[#111827] font-sans;
+  @apply bg-[#09090B] text-[#E2E8F0] font-sans;
   margin: 0;
 }
 
@@ -16,4 +16,8 @@ a {
 
 button {
   @apply transition-all;
+}
+
+::selection {
+  background: rgba(59, 130, 246, 0.3);
 }
