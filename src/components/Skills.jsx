@@ -1,5 +1,6 @@
 import { motion } from 'framer-motion';
 import { useState } from 'react';
+import { FloatingPaths } from './ui/BackgroundPaths';
 
 export default function Skills() {
   const skillGroups = [
@@ -38,9 +39,12 @@ export default function Skills() {
   const [hoveredSkill, setHoveredSkill] = useState(null);
 
   return (
-    <section id="skills" className="py-20 relative">
-      {/* Background gradient */}
-      <div className="absolute inset-0 bg-gradient-to-b from-transparent via-blue-50/30 to-transparent pointer-events-none" />
+    <section id="skills" className="py-20 relative overflow-hidden text-slate-800">
+      {/* Animated SVG paths background */}
+      <FloatingPaths position={1} />
+      <FloatingPaths position={-1} />
+      {/* Gradient overlay to keep text readable */}
+      <div className="absolute inset-0 bg-gradient-to-b from-white/80 via-white/70 to-white/80 pointer-events-none" />
 
       <div className="max-w-4xl mx-auto px-6 relative z-10">
         <motion.div

@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
+import { SmokeBackground } from './ui/SmokeBackground';
 
 export default function Hero() {
   const roles = ['Research Assistant at Brown', 'ML Engineer', 'Backend Developer'];
@@ -16,88 +17,89 @@ export default function Hero() {
     document.getElementById('projects')?.scrollIntoView({ behavior: 'smooth' });
   };
 
+  const scrollToContact = () => {
+    document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' });
+  };
+
   return (
-    <section className="relative min-h-screen flex items-center justify-center pt-20 pb-20 overflow-hidden">
-      {/* Animated background elements */}
+    <section className="relative min-h-screen overflow-hidden bg-black">
+      {/* WebGL smoke fills the entire background */}
+      <div className="absolute inset-0">
+        <SmokeBackground smokeColor="#2563EB" />
+      </div>
+
+      {/* Subtle blue/gold glow orbs layered above the shader */}
       <motion.div
-        animate={{ y: [0, 30, 0], x: [0, 20, 0] }}
-        transition={{ duration: 8, repeat: Infinity }}
-        className="absolute top-20 right-10 w-72 h-72 bg-gradient-to-br from-blue-300 to-blue-100 rounded-full opacity-20 blur-3xl"
-      />
-      <motion.div
-        animate={{ y: [0, -30, 0], x: [0, -20, 0] }}
+        animate={{ y: [0, 40, 0], opacity: [0.15, 0.25, 0.15] }}
         transition={{ duration: 10, repeat: Infinity }}
-        className="absolute bottom-10 left-5 w-96 h-96 bg-gradient-to-tr from-amber-200 to-amber-100 rounded-full opacity-15 blur-3xl"
-      />
-
-      {/* Decorative shapes */}
-      <motion.div
-        animate={{ rotate: 360 }}
-        transition={{ duration: 20, repeat: Infinity, ease: 'linear' }}
-        className="absolute top-32 left-20 w-32 h-32 border-2 border-blue-200 rounded-lg opacity-10"
+        className="absolute top-20 right-10 w-80 h-80 bg-blue-500 rounded-full blur-[100px] pointer-events-none"
       />
       <motion.div
-        animate={{ rotate: -360 }}
-        transition={{ duration: 25, repeat: Infinity, ease: 'linear' }}
-        className="absolute bottom-40 right-32 w-40 h-40 border-2 border-amber-200 rounded-full opacity-10"
+        animate={{ y: [0, -30, 0], opacity: [0.1, 0.2, 0.1] }}
+        transition={{ duration: 13, repeat: Infinity }}
+        className="absolute bottom-20 left-10 w-96 h-96 bg-amber-500 rounded-full blur-[120px] pointer-events-none"
       />
 
-      <div className="max-w-4xl mx-auto px-6 text-left relative z-10">
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, ease: 'easeOut' }}
-        >
-          <motion.h1
-            className="text-6xl md:text-7xl font-bold mb-4"
-            style={{
-              background: 'linear-gradient(135deg, #111827 0%, #2563EB 50%, #F59E0B 100%)',
-              backgroundClip: 'text',
-              WebkitBackgroundClip: 'text',
-              WebkitTextFillColor: 'transparent',
-            }}
+      {/* Content */}
+      <div className="relative z-10 min-h-screen flex items-center justify-center pt-20 pb-20">
+        <div className="max-w-4xl mx-auto px-6 text-left">
+          <motion.div
+            initial={{ opacity: 0, y: 40 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 1, ease: 'easeOut' }}
           >
-            Hi, I'm Shravya.
-          </motion.h1>
-
-          <div className="h-12 mb-8">
-            <motion.div
-              key={roleIndex}
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -10 }}
-              transition={{ duration: 0.5 }}
-              className="flex items-center gap-2"
+            <motion.h1
+              className="text-6xl md:text-8xl font-bold mb-6 leading-tight"
+              style={{
+                background: 'linear-gradient(135deg, #ffffff 0%, #93C5FD 40%, #F59E0B 100%)',
+                backgroundClip: 'text',
+                WebkitBackgroundClip: 'text',
+                WebkitTextFillColor: 'transparent',
+              }}
             >
-              <span className="inline-block w-2 h-2 bg-gold rounded-full animate-pulse"></span>
-              <p className="text-xl md:text-2xl bg-gradient-to-r from-blue-600 to-amber-500 bg-clip-text text-transparent font-semibold">
-                {roles[roleIndex]}
-              </p>
-            </motion.div>
-          </div>
+              Hi, I'm Shravya.
+            </motion.h1>
 
-          <p className="text-lg text-[#64748B] max-w-2xl mb-10 leading-relaxed">
-            CS Master's student at Brown University — I build AI systems that are rigorous, scalable, and actually useful.
-          </p>
+            <div className="h-12 mb-8">
+              <motion.div
+                key={roleIndex}
+                initial={{ opacity: 0, y: 12 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -12 }}
+                transition={{ duration: 0.5 }}
+                className="flex items-center gap-3"
+              >
+                <span className="inline-block w-2.5 h-2.5 bg-amber-400 rounded-full animate-pulse shadow-[0_0_8px_rgba(245,158,11,0.8)]" />
+                <p className="text-xl md:text-2xl font-semibold text-blue-300">
+                  {roles[roleIndex]}
+                </p>
+              </motion.div>
+            </div>
 
-          <div className="flex gap-4 flex-wrap">
-            <motion.button
-              whileHover={{ scale: 1.08, boxShadow: '0 20px 40px rgba(245, 158, 11, 0.3)' }}
-              whileTap={{ scale: 0.95 }}
-              onClick={scrollToProjects}
-              className="px-8 py-4 bg-gradient-to-r from-blue-600 to-blue-700 text-white rounded-lg font-semibold hover:from-blue-700 hover:to-blue-800 transition-all shadow-lg"
-            >
-              Explore Projects ↓
-            </motion.button>
-            <motion.button
-              whileHover={{ scale: 1.08 }}
-              whileTap={{ scale: 0.95 }}
-              className="px-8 py-4 border-2 border-blue-600 text-blue-600 rounded-lg font-semibold hover:bg-blue-50 transition-all"
-            >
-              Get in Touch →
-            </motion.button>
-          </div>
-        </motion.div>
+            <p className="text-lg md:text-xl text-slate-300 max-w-2xl mb-12 leading-relaxed">
+              CS Master's student at Brown University — I build AI systems that are rigorous, scalable, and actually useful.
+            </p>
+
+            <div className="flex gap-4 flex-wrap">
+              <motion.button
+                whileHover={{ scale: 1.06, boxShadow: '0 0 40px rgba(37,99,235,0.5)' }}
+                whileTap={{ scale: 0.95 }}
+                onClick={scrollToProjects}
+                className="px-8 py-4 bg-gradient-to-r from-blue-600 to-blue-500 text-white rounded-xl font-semibold shadow-lg shadow-blue-900/40 hover:shadow-blue-500/40 transition-all"
+              >
+                Explore Projects ↓
+              </motion.button>
+              <motion.button
+                whileHover={{ scale: 1.06, backgroundColor: 'rgba(255,255,255,0.1)' }}
+                whileTap={{ scale: 0.95 }}
+                onClick={scrollToContact}
+                className="px-8 py-4 border border-white/20 text-white/80 rounded-xl font-semibold hover:text-white backdrop-blur-sm transition-all"
+              >
+                Get in Touch →
+              </motion.button>
+            </div>
+          </motion.div>
+        </div>
       </div>
     </section>
   );
