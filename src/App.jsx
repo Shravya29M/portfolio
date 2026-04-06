@@ -1,25 +1,18 @@
-import Navbar from './components/Navbar';
-import Hero from './components/Hero';
-import About from './components/About';
-import Experience from './components/Experience';
-import Projects from './components/Projects';
-import Publications from './components/Publications';
-import Skills from './components/Skills';
-import Contact from './components/Contact';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import Home from './pages/Home';
+import ProjectDetail from './pages/ProjectDetail';
 import './index.css';
 
 function App() {
   return (
-    <div className="min-h-screen bg-[#09090B]">
-      <Navbar />
-      <Hero />
-      <About />
-      <Experience />
-      <Projects />
-      <Publications />
-      <Skills />
-      <Contact />
-    </div>
+    <BrowserRouter>
+      <div className="min-h-screen bg-[#09090B]">
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/project/:id" element={<ProjectDetail />} />
+        </Routes>
+      </div>
+    </BrowserRouter>
   );
 }
 

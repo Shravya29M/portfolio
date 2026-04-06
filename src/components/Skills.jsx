@@ -1,33 +1,102 @@
 import { motion } from 'framer-motion';
+import {
+  SiPython,
+  SiOpenjdk,
+  SiC,
+  SiCplusplus,
+  SiJavascript,
+  SiPostgresql,
+  SiFastapi,
+  SiReact,
+  SiGooglecloud,
+  SiDocker,
+  SiKubernetes,
+  SiGithubactions,
+  SiPytorch,
+  SiTensorflow,
+  SiHuggingface,
+  SiGit,
+  SiLinux,
+} from 'react-icons/si';
+
+const iconMap = {
+  Python: SiPython,
+  Java: SiOpenjdk,
+  C: SiC,
+  'C++': SiCplusplus,
+  SQL: SiPostgresql,
+  JavaScript: SiJavascript,
+  FastAPI: SiFastapi,
+  React: SiReact,
+  GCP: SiGooglecloud,
+  Docker: SiDocker,
+  Kubernetes: SiKubernetes,
+  'CI/CD': SiGithubactions,
+  'GitHub Actions': SiGithubactions,
+  PyTorch: SiPytorch,
+  TensorFlow: SiTensorflow,
+  HuggingFace: SiHuggingface,
+  Git: SiGit,
+  Linux: SiLinux,
+};
+
+const skillGroups = [
+  {
+    category: 'Languages',
+    skills: ['Python', 'Java', 'C', 'C++', 'SQL', 'JavaScript'],
+  },
+  {
+    category: 'Backend & APIs',
+    skills: ['FastAPI', 'REST APIs', 'Microservices', 'AWS Lambda', 'React'],
+  },
+  {
+    category: 'Cloud & DevOps',
+    skills: ['AWS', 'GCP', 'Docker', 'Kubernetes', 'CI/CD', 'GitHub Actions'],
+  },
+  {
+    category: 'ML & AI',
+    skills: [
+      'PyTorch',
+      'TensorFlow',
+      'HuggingFace',
+      'NLP',
+      'Computer Vision',
+      'LLMs',
+    ],
+  },
+  {
+    category: 'Data & Databases',
+    skills: ['SQL', 'ETL Pipelines', 'Relational DB Design'],
+  },
+  {
+    category: 'Tools',
+    skills: ['Git', 'Linux', 'Agile/Scrum'],
+  },
+];
+
+function SkillTile({ name }) {
+  const Icon = iconMap[name];
+  return (
+    <motion.div
+      whileHover={{ y: -2 }}
+      className="group flex items-center gap-2.5 px-3 py-2.5 border border-white/[0.06] rounded-lg bg-white/[0.02] hover:border-blue-500/30 hover:bg-blue-500/[0.04] transition-all"
+    >
+      {Icon ? (
+        <Icon
+          size={16}
+          className="text-white/50 group-hover:text-blue-400 transition-colors flex-shrink-0"
+        />
+      ) : (
+        <span className="w-1 h-1 rounded-full bg-white/30 group-hover:bg-blue-400 transition-colors flex-shrink-0" />
+      )}
+      <span className="text-sm text-white/70 group-hover:text-white transition-colors">
+        {name}
+      </span>
+    </motion.div>
+  );
+}
 
 export default function Skills() {
-  const skillGroups = [
-    {
-      category: 'Languages',
-      skills: ['Python', 'Java', 'C', 'C++', 'SQL', 'JavaScript'],
-    },
-    {
-      category: 'Backend & APIs',
-      skills: ['FastAPI', 'REST APIs', 'Microservices', 'AWS Lambda', 'React'],
-    },
-    {
-      category: 'Cloud & DevOps',
-      skills: ['AWS', 'GCP', 'Docker', 'Kubernetes', 'CI/CD', 'GitHub Actions'],
-    },
-    {
-      category: 'ML & AI',
-      skills: ['PyTorch', 'TensorFlow', 'HuggingFace', 'NLP', 'Computer Vision', 'LLMs'],
-    },
-    {
-      category: 'Data & Databases',
-      skills: ['SQL', 'ETL Pipelines', 'Relational DB Design'],
-    },
-    {
-      category: 'Tools',
-      skills: ['Git', 'Linux', 'Agile/Scrum'],
-    },
-  ];
-
   return (
     <section id="skills" className="py-24 border-t border-white/5">
       <div className="max-w-4xl mx-auto px-6">
@@ -40,7 +109,7 @@ export default function Skills() {
           What I Work With
         </motion.h2>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-10">
           {skillGroups.map((group, groupIndex) => (
             <motion.div
               key={groupIndex}
@@ -49,17 +118,12 @@ export default function Skills() {
               transition={{ duration: 0.5, delay: groupIndex * 0.06 }}
               viewport={{ once: true }}
             >
-              <h3 className="text-xs font-semibold text-white/30 uppercase tracking-wider mb-3">
+              <h3 className="text-xs font-semibold text-white/30 uppercase tracking-wider mb-4">
                 {group.category}
               </h3>
-              <div className="flex flex-wrap gap-2">
-                {group.skills.map((skill, skillIndex) => (
-                  <span
-                    key={skillIndex}
-                    className="px-3 py-1.5 text-sm text-white/60 border border-white/[0.06] rounded-lg bg-white/[0.02] hover:text-white hover:border-blue-500/30 hover:bg-blue-500/5 transition-all cursor-default"
-                  >
-                    {skill}
-                  </span>
+              <div className="grid grid-cols-2 gap-2">
+                {group.skills.map((skill) => (
+                  <SkillTile key={skill} name={skill} />
                 ))}
               </div>
             </motion.div>
