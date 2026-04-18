@@ -1,3 +1,8 @@
 {
-  "rewrites": [{ "source": "/(.*)", "destination": "/" }]
+  "rewrites": [
+    {
+      "source": "/((?!full_interview_prep\\.html|fundamentals_brushup_plan\\.html).*)",
+      "destination": "/"
+    }
+  ]
 }

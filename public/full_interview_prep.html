@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RA Capital Interview Prep — Full Master Plan</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --color-background-primary: #ffffff;
+    --color-background-secondary: #f5f4f0;
+    --color-background-tertiary: #eeede9;
+    --color-background-info: #e6f1fb;
+    --color-background-danger: #fcebeb;
+    --color-background-warning: #faeeda;
+    --color-background-success: #eaf3de;
+    --color-text-primary: #1a1a18;
+    --color-text-secondary: #5f5e5a;
+    --color-text-tertiary: #888780;
+    --color-text-info: #185fa5;
+    --color-text-danger: #a32d2d;
+    --color-text-warning: #854f0b;
+    --color-text-success: #3b6d11;
+    --color-border-tertiary: rgba(0,0,0,0.12);
+    --color-border-secondary: rgba(0,0,0,0.22);
+    --color-border-info: #85b7eb;
+    --color-border-success: #97c459;
+    --border-radius-md: 8px;
+    --border-radius-lg: 12px;
+    --font-sans: system-ui, -apple-system, sans-serif;
+    --font-mono: 'Courier New', monospace;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --color-background-primary: #1e1d1b;
+      --color-background-secondary: #272622;
+      --color-background-tertiary: #2e2d29;
+      --color-background-info: #042c53;
+      --color-background-danger: #501313;
+      --color-background-warning: #412402;
+      --color-background-success: #173404;
+      --color-text-primary: #e8e6df;
+      --color-text-secondary: #b4b2a9;
+      --color-text-tertiary: #888780;
+      --color-text-info: #85b7eb;
+      --color-text-danger: #f09595;
+      --color-text-warning: #fac775;
+      --color-text-success: #97c459;
+      --color-border-tertiary: rgba(255,255,255,0.1);
+      --color-border-secondary: rgba(255,255,255,0.2);
+      --color-border-info: #185fa5;
+      --color-border-success: #3b6d11;
+    }
+  }
+  body {
+    font-family: var(--font-sans);
+    background: var(--color-background-tertiary);
+    color: var(--color-text-primary);
+    min-height: 100vh;
+    padding: 24px 16px;
+  }
+  .container { max-width: 720px; margin: 0 auto; }
+  h1 { font-size: 18px; font-weight: 500; margin-bottom: 4px; }
+  .subtitle { font-size: 13px; color: var(--color-text-secondary); margin-bottom: 20px; }
+  .tabs{display:flex;border-bottom:0.5px solid var(--color-border-tertiary);margin-bottom:1.5rem;overflow-x:auto}
+  .tab{padding:9px 15px;font-size:13px;font-weight:500;color:var(--color-text-secondary);cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-0.5px;white-space:nowrap;flex-shrink:0;background:none;border-top:none;border-left:none;border-right:none}
+  .tab.active{color:var(--color-text-primary);border-bottom-color:var(--color-text-primary)}
+  .panel{display:none}.panel.active{display:block}
+  .day-block{border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);overflow:hidden;margin-bottom:14px;background:var(--color-background-primary)}
+  .day-header{display:grid;grid-template-columns:80px 1fr;background:var(--color-background-secondary);border-bottom:0.5px solid var(--color-border-tertiary)}
+  .day-left{padding:14px 10px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;border-right:0.5px solid var(--color-border-tertiary)}
+  .day-num{font-size:24px;font-weight:500;color:var(--color-text-primary);line-height:1}
+  .day-sub{font-size:10px;color:var(--color-text-secondary)}
+  .day-badge{font-size:10px;font-weight:500;padding:2px 7px;border-radius:10px;margin-top:3px;text-align:center}
+  .day-right{padding:12px 16px;display:flex;flex-direction:column;justify-content:center}
+  .day-theme{font-size:14px;font-weight:500;color:var(--color-text-primary)}
+  .day-note{font-size:12px;color:var(--color-text-secondary);margin-top:3px;line-height:1.5}
+  .sess{display:grid;grid-template-columns:80px 1fr;border-top:0.5px solid var(--color-border-tertiary)}
+  .sess-time{padding:12px 10px;font-size:11px;color:var(--color-text-secondary);border-right:0.5px solid var(--color-border-tertiary);display:flex;flex-direction:column;gap:3px;align-items:center;justify-content:flex-start;padding-top:14px}
+  .sess-slot{font-weight:500;color:var(--color-text-primary);font-size:11px}
+  .sess-hrs{font-size:10px}
+  .sess-body{padding:12px 16px;background:var(--color-background-primary)}
+  .sess-title{font-size:13px;font-weight:500;color:var(--color-text-primary);margin-bottom:4px}
+  .sess-desc{font-size:12px;color:var(--color-text-secondary);line-height:1.5;margin-bottom:8px}
+  .pills{display:flex;flex-wrap:wrap;gap:5px}
+  .pill{font-size:11px;padding:3px 9px;border-radius:10px;border:0.5px solid var(--color-border-tertiary);color:var(--color-text-secondary);background:var(--color-background-secondary);cursor:pointer;transition:background 0.1s}
+  .pill:hover{background:var(--color-background-info);color:var(--color-text-info);border-color:var(--color-border-info)}
+  .pill.done{background:var(--color-background-success);color:var(--color-text-success);border-color:var(--color-border-success);text-decoration:line-through}
+  .b-agent{background:var(--color-background-info);color:var(--color-text-info)}
+  .b-review{background:var(--color-background-secondary);color:var(--color-text-secondary);border:0.5px solid var(--color-border-tertiary)}
+  .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:1.5rem}
+  .stat{background:var(--color-background-secondary);border-radius:var(--border-radius-md);padding:10px;text-align:center}
+  .stat-n{font-size:20px;font-weight:500;color:var(--color-text-primary)}
+  .stat-l{font-size:10px;color:var(--color-text-secondary);margin-top:2px}
+  .progress-bar{height:4px;background:var(--color-background-secondary);border-radius:2px;margin-bottom:1.5rem;overflow:hidden}
+  .progress-fill{height:100%;background:var(--color-text-success);border-radius:2px;transition:width 0.3s}
+  .cat-block{margin-bottom:1.5rem}
+  .cat-hdr{display:flex;align-items:center;gap:8px;margin-bottom:8px}
+  .cat-name{font-size:14px;font-weight:500;color:var(--color-text-primary)}
+  .cat-count{font-size:11px;color:var(--color-text-secondary)}
+  .topic-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(175px,1fr));gap:7px}
+  .tc{background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-md);padding:10px 11px;cursor:pointer;transition:border-color 0.15s}
+  .tc:hover{border-color:var(--color-border-info)}
+  .tc.done{border-color:var(--color-border-success);background:var(--color-background-success)}
+  .tc-name{font-size:12px;font-weight:500;color:var(--color-text-primary);margin-bottom:3px}
+  .tc.done .tc-name{color:var(--color-text-success);text-decoration:line-through}
+  .tc-pri{font-size:10px;font-weight:500;padding:2px 6px;border-radius:8px;display:inline-block;margin-bottom:5px}
+  .p-c{background:var(--color-background-danger);color:var(--color-text-danger)}
+  .p-i{background:var(--color-background-warning);color:var(--color-text-warning)}
+  .p-n{background:var(--color-background-success);color:var(--color-text-success)}
+  .tc-sub{font-size:10px;color:var(--color-text-secondary);line-height:1.4;margin-bottom:6px}
+  .tc-btn{font-size:10px;padding:3px 8px;cursor:pointer;background:transparent;border:0.5px solid var(--color-border-secondary);border-radius:6px;color:var(--color-text-info)}
+  .pgen-wrap{margin-bottom:1rem}
+  .pgen-input{display:flex;gap:8px;margin-bottom:10px}
+  .pgen-input input{flex:1;font-size:13px;padding:8px 12px;border:0.5px solid var(--color-border-secondary);border-radius:var(--border-radius-md);background:var(--color-background-primary);color:var(--color-text-primary);outline:none}
+  .pgen-input input:focus{box-shadow:0 0 0 2px var(--color-border-info)}
+  .pgen-input button{font-size:13px;padding:0 14px;white-space:nowrap;cursor:pointer;background:transparent;border:0.5px solid var(--color-border-secondary);border-radius:var(--border-radius-md);color:var(--color-text-primary)}
+  .pgen-input button:hover{background:var(--color-background-secondary)}
+  .pout{background:var(--color-background-secondary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);padding:1rem 1.25rem}
+  .pout-lbl{font-size:10px;font-weight:500;color:var(--color-text-secondary);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:8px}
+  .pout-text{font-size:12px;color:var(--color-text-primary);line-height:1.7;font-family:var(--font-mono);white-space:pre-wrap;word-break:break-word}
+  .copy-btn{font-size:11px;margin-top:8px;padding:5px 12px;cursor:pointer;background:transparent;border:0.5px solid var(--color-border-secondary);border-radius:var(--border-radius-md);color:var(--color-text-secondary)}
+  .copy-btn:hover{background:var(--color-background-secondary)}
+  .divider{height:0.5px;background:var(--color-border-tertiary);margin:1rem 0}
+  .qk-row{display:flex;align-items:center;justify-content:space-between;padding:7px 0;border-bottom:0.5px solid var(--color-border-tertiary)}
+  .qk-name{font-size:13px;color:var(--color-text-primary)}
+  .qk-sub{font-size:11px;color:var(--color-text-secondary)}
+  .qk-btn{font-size:11px;padding:4px 10px;cursor:pointer;background:transparent;border:0.5px solid var(--color-border-secondary);border-radius:var(--border-radius-md);color:var(--color-text-info);white-space:nowrap;flex-shrink:0;margin-left:10px}
+</style>
+</head>
+<body>
+<div class="container">
+  <h1>RA Capital — Full Interview Prep</h1>
+  <p class="subtitle">62 topics · 4-day plan · study prompt generator</p>
+
+  <div class="tabs">
+    <button class="tab active" onclick="sw('plan')">4-day plan</button>
+    <button class="tab" onclick="sw('topics')">Topic tracker</button>
+    <button class="tab" onclick="sw('prompt')">Prompt generator</button>
+  </div>
+
+  <div id="tab-plan" class="panel active">
+
+    <div class="day-block">
+      <div class="day-header">
+        <div class="day-left"><div class="day-num">1</div><div class="day-sub">Day 1</div><div class="day-badge b-agent">Agents + LLMs</div></div>
+        <div class="day-right"><div class="day-theme">Agents, MCP, RAG, and LLM foundations</div><div class="day-note">Your biggest interview gaps. DriftGuard and Elyssa are your anchor stories — know them cold.</div></div>
+      </div>
+      <div class="sess">
+        <div class="sess-time"><div class="sess-slot">AM</div><div class="sess-hrs">2.5 hrs</div></div>
+        <div class="sess-body">
+          <div class="sess-title">Agent fundamentals: ReAct, LangChain, LangGraph</div>
+          <div class="sess-desc">The ReAct loop (Reason + Act), how agents decide when to call tools vs answer directly. Build a tiny LangGraph agent. Understand state machines, conditional edges, memory in agents.</div>
+          <div class="pills"><span class="pill" onclick="td(this)">ReAct pattern</span><span class="pill" onclick="td(this)">LangGraph</span><span class="pill" onclick="td(this)">LangChain basics</span><span class="pill" onclick="td(this)">Agent memory</span></div>
+        </div>
+      </div>
+      <div class="sess">
+        <div class="sess-time"><div class="sess-slot">PM</div><div class="sess-hrs">2 hrs</div></div>
+        <div class="sess-body">
+          <div class="sess-title">MCP protocol + multi-agent architecture</div>
+          <div class="sess-desc">Model Context Protocol: what it is, how MCP servers expose tools to Claude/agents. Multi-agent orchestration patterns. Agentic pipelines end-to-end. Explicitly in the JD.</div>
+          <div class="pills"><span class="pill" onclick="td(this)">MCP protocol</span><span class="pill" onclick="td(this)">Tool calling / function calling</span><span class="pill" onclick="td(this)">Multi-agent architecture</span><span class="pill" onclick="td(this)">Agentic pipelines</span></div>
+        </div>
+      </div>
+      <div class="sess">
+        <div class="sess-time"><div class="sess-slot">EVE</div><div class="sess-hrs">1.5 hrs</div></div>
+        <div class="sess-body">
+          <div class="sess-title">RAG deep review + FAISS + DriftGuard story</div>
+          <div class="sess-desc">Chunking strategies, sliding-window overlap, embedding models, FAISS indexing, A/B re-indexing. Narrate DriftGuard out loud in 4 mins — cover every design decision.</div>
+          <div class="pills"><span class="pill" onclick="td(this)">RAG pipeline design</span><span class="pill" onclick="td(this)">FAISS / vector databases</span><span class="pill" onclick="td(this)">Chunking strategies</span><span class="pill" onclick="td(this)">Embedding models</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="day-block">
+      <div class="day-header">
+        <div class="day-left"><div class="day-num">2</div><div class="day-sub">Day 2</div><div class="day-badge" style="background:#EEEDFE;color:#3C3489">LLM depth + SWE</div></div>
+        <div class="day-right"><div class="day-theme">LLM internals, fine-tuning, prompting, production SWE</div><div class="day-note">Bridge your hands-on experience with the theory they'll probe. Solidify the SWE stack from your resume.</div></div>
+      </div>
+      <div class="sess">
+        <div class="sess-time"><div class="sess-slot">AM</div><div class="sess-hrs">2 hrs</div></div>
+        <div class="sess-body">
+          <div class="sess-title">LLM internals: transformer, attention, tokenization</div>
+          <div class="sess-desc">How transformers work, self-attention, positional encoding, how tokens map to embeddings. You built a transformer autoencoder for point clouds — connect that work here.</div>
+          <div class="pills"><span class="pill" onclick="td(this)">Transformer architecture</span><span class="pill" onclick="td(this)">Self-attention</span><span class="pill" onclick="td(this)">Tokenization</span><span class="pill" onclick="td(this)">Positional encoding</span></div>
+        </div>
+      </div>
+      <div class="sess">
+        <div class="sess-time"><div class="sess-slot">PM</div><div class="sess-hrs">2 hrs</div></div>
+        <div class="sess-body">
+          <div class="sess-title">Fine-tuning, LoRA/PEFT, eval metrics, prompt engineering</div>
+          <div class="sess-desc">RAG vs fine-tuning vs prompting trade-offs. LoRA/PEFT conceptually. ROUGE F1 (you used it in Elyssa — know what it measures). CoT, few-shot, structured outputs, system prompt design.</div>
+          <div class="pills"><span class="pill" onclick="td(this)">Fine-tuning vs RAG vs prompting</span><span class="pill" onclick="td(this)">LoRA / PEFT</span><span class="pill" onclick="td(this)">ROUGE / BERTScore</span><span class="pill" onclick="td(this)">Chain-of-thought prompting</span><span class="pill" onclick="td(this)">Structured outputs</span></div>
+        </div>
+      </div>
+      <div class="sess">
+        <div class="sess-time"><div class="sess-slot">EVE</div><div class="sess-hrs">2 hrs</div></div>
+        <div class="sess-body">
+          <div class="sess-title">Production SWE: FastAPI, Docker, Kubernetes, CI/CD</div>
+          <div class="sess-desc">FastAPI request lifecycle, Docker multi-stage builds (your DriftGuard setup), Kubernetes autoscaling (Elyssa). GitHub Actions CI/CD patterns. REST API design principles.</div>
+          <div class="pills"><span class="pill" onclick="td(this)">FastAPI internals</span><span class="pill" onclick="td(this)">Docker multi-stage builds</span><span class="pill" onclick="td(this)">Kubernetes autoscaling</span><span class="pill" onclick="td(this)">CI/CD with GitHub Actions</span><span class="pill" onclick="td(this)">REST API design</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="day-block">
+      <div class="day-header">
+        <div class="day-left"><div class="day-num">3</div><div class="day-sub">Day 3</div><div class="day-badge" style="background:#faeeda;color:#854f0b">ML + AWS</div></div>
+        <div class="day-right"><div class="day-theme">ML depth, deep learning, AWS services</div><div class="day-note">Your CNN and regression work is strong. Add time-series, tabular ML, and AWS SageMaker/Bedrock.</div></div>
+      </div>
+      <div class="sess">
+        <div class="sess-time"><div class="sess-slot">AM</div><div class="sess-hrs">2 hrs</div></div>
+        <div class="sess-body">
+          <div class="sess-title">Deep learning: CNNs, PyTorch, training loops</div>
+          <div class="sess-desc">3D CNN architecture (your schizophrenia model), loss functions, optimizers, backprop, batch normalization, data augmentation. Narrate the PyTorch training loop from scratch.</div>
+          <div class="pills"><span class="pill" onclick="td(this)">CNN architecture</span><span class="pill" onclick="td(this)">PyTorch training loop</span><span class="pill" onclick="td(this)">Loss functions</span><span class="pill" onclick="td(this)">Optimizers (Adam, SGD)</span><span class="pill" onclick="td(this)">Backpropagation</span></div>
+        </div>
+      </div>
+      <div class="sess">
+        <div class="sess-time"><div class="sess-slot">PM1</div><div class="sess-hrs">1.5 hrs</div></div>
+        <div class="sess-body">
+          <div class="sess-title">Predictive analytics: time-series + tabular ML</div>
+          <div class="sess-desc">Time-series: ARIMA, Prophet, TFT. Tabular: XGBoost, LightGBM, feature engineering, imbalanced data (SMOTE, class weights). Regression analysis from your Brown ETL work.</div>
+          <div class="pills"><span class="pill" onclick="td(this)">Time-series forecasting</span><span class="pill" onclick="td(this)">XGBoost / LightGBM</span><span class="pill" onclick="td(this)">Feature engineering</span><span class="pill" onclick="td(this)">Imbalanced classification</span></div>
+        </div>
+      </div>
+      <div class="sess">
+        <div class="sess-time"><div class="sess-slot">PM2</div><div class="sess-hrs">2 hrs</div></div>
+        <div class="sess-body">
+          <div class="sess-title">AWS: Lambda, SageMaker, Bedrock, EC2, S3</div>
+          <div class="sess-desc">Lambda + API Gateway (you deployed this — know cold start, timeout, concurrency). SageMaker training jobs + endpoints. Bedrock: managed LLM APIs. IAM least-privilege + CloudWatch.</div>
+          <div class="pills"><span class="pill" onclick="td(this)">AWS Lambda internals</span><span class="pill" onclick="td(this)">SageMaker training jobs</span><span class="pill" onclick="td(this)">SageMaker endpoints</span><span class="pill" onclick="td(this)">AWS Bedrock</span><span class="pill" onclick="td(this)">IAM + CloudWatch</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="day-block">
+      <div class="day-header">
+        <div class="day-left"><div class="day-num">4</div><div class="day-sub">Day 4</div><div class="day-badge b-review">Rehearsal</div></div>
+        <div class="day-right"><div class="day-theme">NLP, system design + full mock rehearsal</div><div class="day-note">Fill remaining gaps, then spend the afternoon on mock interview and story polish. Sleep early.</div></div>
+      </div>
+      <div class="sess">
+        <div class="sess-time"><div class="sess-slot">AM</div><div class="sess-hrs">2 hrs</div></div>
+        <div class="sess-body">
+          <div class="sess-title">NLP + model evaluation + drift detection</div>
+          <div class="sess-desc">NLP: BERT-family models, text classification, sentiment analysis. Evaluation: AUC-ROC, precision-recall, calibration, cross-validation design. Drift: KS test (your DriftGuard), PSI, re-training triggers.</div>
+          <div class="pills"><span class="pill" onclick="td(this)">BERT / transformer NLP</span><span class="pill" onclick="td(this)">Text classification</span><span class="pill" onclick="td(this)">AUC-ROC / precision-recall</span><span class="pill" onclick="td(this)">Model drift detection</span><span class="pill" onclick="td(this)">KS test / PSI</span></div>
+        </div>
+      </div>
+      <div class="sess">
+        <div class="sess-time"><div class="sess-slot">PM1</div><div class="sess-hrs">1.5 hrs</div></div>
+        <div class="sess-body">
+          <div class="sess-title">ML system design + ETL + observability</div>
+          <div class="sess-desc">End-to-end ML system: ingestion → ETL → features → training → serving → monitoring. Prometheus metrics (DriftGuard). Batch vs streaming. Latency / scalability trade-offs.</div>
+          <div class="pills"><span class="pill" onclick="td(this)">ML system design</span><span class="pill" onclick="td(this)">ETL pipeline design</span><span class="pill" onclick="td(this)">Prometheus / observability</span><span class="pill" onclick="td(this)">Batch vs streaming</span></div>
+        </div>
+      </div>
+      <div class="sess">
+        <div class="sess-time"><div class="sess-slot">EVE</div><div class="sess-hrs">2 hrs</div></div>
+        <div class="sess-body">
+          <div class="sess-title">Mock interview: all 7 questions + RA Capital domain</div>
+          <div class="sess-desc">Answer all questions out loud, record yourself. Research RA Capital Planetary Health thesis. Prep 3 genuine questions. Then rest — it's a conversation, not a coding test.</div>
+          <div class="pills"><span class="pill" onclick="td(this)">DriftGuard story (4 min)</span><span class="pill" onclick="td(this)">Elyssa story (3 min)</span><span class="pill" onclick="td(this)">3D CNN MRI story (3 min)</span><span class="pill" onclick="td(this)">Brown crawler story (2 min)</span><span class="pill" onclick="td(this)">RA Capital domain prep</span></div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div id="tab-topics" class="panel">
+    <div class="stats">
+      <div class="stat"><div class="stat-n" id="sn-t">62</div><div class="stat-l">total topics</div></div>
+      <div class="stat"><div class="stat-n" id="sn-d">0</div><div class="stat-l">done</div></div>
+      <div class="stat"><div class="stat-n" id="sn-p">0%</div><div class="stat-l">progress</div></div>
+      <div class="stat"><div class="stat-n" id="sn-r">62</div><div class="stat-l">remaining</div></div>
+    </div>
+    <div class="progress-bar"><div class="progress-fill" id="pfill" style="width:0%"></div></div>
+    <div id="all-cats"></div>
+  </div>
+
+  <div id="tab-prompt" class="panel">
+    <div class="pgen-wrap">
+      <div style="font-size:13px;color:var(--color-text-secondary);margin-bottom:10px;line-height:1.5">Type any topic and get a ready-to-use study prompt. Paste it into a new Claude chat for a complete lesson tailored to your background.</div>
+      <div class="pgen-input">
+        <input type="text" id="pf" placeholder="e.g. LangGraph, FAISS, SageMaker endpoints, LoRA..." oninput="liveGen()" onkeydown="if(event.key==='Enter')genP()"/>
+        <button onclick="genP()">Generate ↗</button>
+      </div>
+      <div class="pout">
+        <div class="pout-lbl">Your study prompt</div>
+        <div class="pout-text" id="pout-text">Start typing above — your prompt will appear here instantly.</div>
+      </div>
+      <button class="copy-btn" onclick="copyP()">Copy prompt</button>
+    </div>
+    <div class="divider"></div>
+    <div style="font-size:13px;font-weight:500;color:var(--color-text-primary);margin-bottom:10px">Quick-start: every critical topic</div>
+    <div id="qklist"></div>
+  </div>
+
+</div>
+
+<script>
+const CATS = [
+  {name:"Agents & agentic systems",topics:[
+    {n:"ReAct pattern",p:"c",s:"Reason+Act loop, tool-call decision logic"},
+    {n:"LangGraph",p:"c",s:"State machines, nodes, edges, conditional routing"},
+    {n:"LangChain basics",p:"c",s:"Chains, prompts, memory, retrievers"},
+    {n:"Tool calling / function calling",p:"c",s:"JSON schema for tools, parsing results"},
+    {n:"MCP protocol",p:"c",s:"Model Context Protocol, how tools are exposed"},
+    {n:"Multi-agent architecture",p:"c",s:"Orchestrator-subagent, routing, shared memory"},
+    {n:"Agentic pipelines",p:"c",s:"End-to-end: input→plan→tool→synthesize→output"},
+    {n:"Agent memory patterns",p:"i",s:"Short-term vs long-term memory, vector memory"},
+    {n:"Planning & task decomposition",p:"i",s:"Breaking goals into sub-tasks, CoT planning"},
+  ]},
+  {name:"LLM application development",topics:[
+    {n:"RAG pipeline design",p:"c",s:"Chunking, embedding, retrieval, answer generation"},
+    {n:"FAISS / vector databases",p:"c",s:"Indexing, similarity search, ANN algorithms"},
+    {n:"Chunking strategies",p:"c",s:"Fixed, semantic, sliding-window overlap"},
+    {n:"Embedding models",p:"c",s:"sentence-transformers, OpenAI embeddings, cosine sim"},
+    {n:"Fine-tuning vs RAG vs prompting",p:"c",s:"Trade-offs: cost, latency, freshness, accuracy"},
+    {n:"LoRA / PEFT",p:"c",s:"Adapters, rank decomposition, training cost"},
+    {n:"ROUGE / BERTScore",p:"c",s:"What they measure, when each is appropriate"},
+    {n:"Chain-of-thought prompting",p:"c",s:"Zero-shot vs few-shot CoT, step-by-step reasoning"},
+    {n:"Few-shot prompting",p:"c",s:"In-context learning, example selection"},
+    {n:"Structured outputs",p:"c",s:"JSON mode, function calling for typed output"},
+    {n:"Context window management",p:"i",s:"Token budgeting, summarization, long-doc strategies"},
+    {n:"LLM serving & latency",p:"i",s:"Batching, streaming, caching, quantization"},
+    {n:"LLM evaluation (ragas / DeepEval)",p:"i",s:"Faithfulness, answer relevance, context recall"},
+    {n:"Multi-LLM backend routing",p:"i",s:"Routing by cost/task, GPT-4o vs Claude vs Llama"},
+  ]},
+  {name:"Deep learning & neural networks",topics:[
+    {n:"Transformer architecture",p:"c",s:"Encoder, decoder, attention heads, FFN layers"},
+    {n:"Self-attention mechanism",p:"c",s:"Q/K/V matrices, scaled dot-product, softmax"},
+    {n:"CNN architecture",p:"c",s:"Conv layers, pooling, receptive field, 3D CNNs"},
+    {n:"PyTorch training loop",p:"c",s:"Forward pass, loss, backward, optimizer step"},
+    {n:"Backpropagation",p:"c",s:"Chain rule, gradient flow, vanishing gradients"},
+    {n:"Loss functions",p:"i",s:"Cross-entropy, MSE, focal loss for imbalanced"},
+    {n:"Optimizers (Adam, SGD)",p:"i",s:"Momentum, learning rate schedules, weight decay"},
+    {n:"Batch normalization",p:"i",s:"Why it helps training stability"},
+    {n:"Data augmentation",p:"i",s:"Geometric, color, MixUp, for medical imaging"},
+    {n:"Positional encoding",p:"i",s:"Sinusoidal vs learned, why needed in transformers"},
+    {n:"Point cloud / 3D reconstruction",p:"n",s:"Your transformer autoencoder on ModelNet10"},
+  ]},
+  {name:"Classical ML & predictive analytics",topics:[
+    {n:"Time-series forecasting",p:"c",s:"ARIMA, Prophet, TFT, MAPE/RMSE evaluation"},
+    {n:"XGBoost / LightGBM",p:"c",s:"Gradient boosting, feature importance, tuning"},
+    {n:"Feature engineering",p:"c",s:"Lag features, rolling stats, domain features"},
+    {n:"Imbalanced classification",p:"c",s:"SMOTE, class weights, threshold tuning, PR curves"},
+    {n:"Model evaluation",p:"c",s:"AUC-ROC, precision-recall, calibration, NDCG"},
+    {n:"Cross-validation design",p:"i",s:"k-fold, stratified, time-series splits"},
+    {n:"Regression analysis",p:"i",s:"OLS, regularization, residual diagnostics"},
+    {n:"Clustering",p:"n",s:"k-means, DBSCAN, when to use unsupervised"},
+    {n:"Scikit-learn pipelines",p:"i",s:"Pipeline, ColumnTransformer, GridSearchCV"},
+  ]},
+  {name:"NLP & computer vision",topics:[
+    {n:"BERT / transformer-based NLP",p:"c",s:"Pretraining, fine-tuning, tokenization"},
+    {n:"Text classification",p:"c",s:"Sequence classification, softmax head, fine-tuning"},
+    {n:"Sentiment analysis",p:"i",s:"Lexicon vs model-based, multi-class sentiment"},
+    {n:"Named entity recognition",p:"n",s:"Token classification, BIO tagging"},
+    {n:"Model drift detection",p:"c",s:"Data drift vs concept drift, triggers"},
+    {n:"KS test / PSI",p:"c",s:"Two-sample KS test (your DriftGuard), PSI for features"},
+    {n:"OpenCV basics",p:"i",s:"Image ops, contours, used in your resume stack"},
+  ]},
+  {name:"AWS & cloud infrastructure",topics:[
+    {n:"AWS Lambda internals",p:"c",s:"Cold start, concurrency, timeout, layers"},
+    {n:"SageMaker training jobs",p:"c",s:"Estimator API, spot instances, experiment tracking"},
+    {n:"SageMaker endpoints",p:"c",s:"Real-time vs batch, autoscaling, model registry"},
+    {n:"AWS Bedrock",p:"c",s:"Managed LLM APIs, invoking Claude/Titan"},
+    {n:"API Gateway patterns",p:"i",s:"REST vs HTTP API, throttling, stages"},
+    {n:"IAM + CloudWatch",p:"i",s:"Least-privilege roles, metric alarms, log insights"},
+    {n:"S3 patterns",p:"i",s:"Versioning, lifecycle rules, presigned URLs"},
+    {n:"CloudFormation basics",p:"n",s:"Infrastructure-as-code, you used this at Pentabrains"},
+    {n:"GitHub Actions CI/CD",p:"i",s:"Workflow YAML, matrix builds, deploy steps"},
+  ]},
+  {name:"Software engineering",topics:[
+    {n:"FastAPI internals",p:"c",s:"Request lifecycle, dependency injection, async"},
+    {n:"Docker multi-stage builds",p:"c",s:"Layer caching, image size, your DriftGuard setup"},
+    {n:"Kubernetes autoscaling",p:"i",s:"HPA, resource limits, your Elyssa deployment"},
+    {n:"Microservices patterns",p:"i",s:"Service isolation, fault isolation, your Elyssa arch"},
+    {n:"ML system design",p:"c",s:"Ingestion→features→train→serve→monitor loop"},
+    {n:"ETL pipeline design",p:"i",s:"Your Brown crawler: fault tolerance, retries, merging"},
+    {n:"Prometheus / observability",p:"i",s:"Metrics, /metrics endpoint, your DriftGuard"},
+    {n:"REST API design",p:"i",s:"HTTP verbs, status codes, versioning, pagination"},
+    {n:"Selenium / web crawling",p:"n",s:"Your Brown research crawler, bot-avoidance"},
+    {n:"Batch vs streaming pipelines",p:"i",s:"Trade-offs, Kafka basics, when to use each"},
+  ]},
+];
+
+const PT = (topic) =>
+`I have a technical interview in a few days for an AI Engineering internship at RA Capital, a biotech/climate investment firm in Boston. I need to learn "${topic}" thoroughly enough to discuss it confidently with a senior engineer.
+
+Please teach me everything I need to know, structured exactly like this:
+
+1. Core concept (plain English — what is it and why does it exist)
+2. How it actually works (the mechanism — go deep, don't skip steps)
+3. Key terms I need to define on the spot
+4. When to use it vs alternatives, and its failure modes
+5. A concrete example relevant to AI/ML systems, biomedical data, or finance data
+6. The 3 most likely interview questions on this topic, with strong answers
+7. What signal vs noise looks like — what a senior engineer wants to hear vs generic answers
+
+My background: I've built production RAG pipelines (FAISS + FastAPI + drift detection), fine-tuned LLMs (+10.46% ROUGE F1), deployed on Kubernetes and AWS Lambda, and trained a 3D CNN for MRI classification (AUC 0.79). I know Python deeply. Skip basics — go deep where it matters.`;
+
+function sw(name){
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+  document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
+  document.querySelector(`[onclick="sw('${name}')"]`).classList.add('active');
+  document.getElementById('tab-'+name).classList.add('active');
+}
+
+function td(el){ el.classList.toggle('done'); }
+
+function updateStats(){
+  const total = document.querySelectorAll('.tc').length;
+  const done = document.querySelectorAll('.tc.done').length;
+  document.getElementById('sn-t').textContent = total;
+  document.getElementById('sn-d').textContent = done;
+  document.getElementById('sn-p').textContent = Math.round(done/total*100)+'%';
+  document.getElementById('sn-r').textContent = total - done;
+  document.getElementById('pfill').style.width = Math.round(done/total*100)+'%';
+}
+
+function loadPrompt(name){
+  document.getElementById('pf').value = name;
+  document.getElementById('pout-text').textContent = PT(name);
+  sw('prompt');
+}
+
+function liveGen(){
+  const v = document.getElementById('pf').value.trim();
+  document.getElementById('pout-text').textContent = v ? PT(v) : 'Start typing above — your prompt will appear here instantly.';
+}
+
+function genP(){
+  const v = document.getElementById('pf').value.trim();
+  if(!v) return;
+  document.getElementById('pout-text').textContent = PT(v);
+}
+
+function copyP(){
+  const t = document.getElementById('pout-text').textContent;
+  if(t.startsWith('Start')) return;
+  navigator.clipboard.writeText(t).then(()=>{
+    const b = document.querySelector('.copy-btn');
+    b.textContent='Copied!';
+    setTimeout(()=>b.textContent='Copy prompt',1800);
+  });
+}
+
+function renderAll(){
+  const wrap = document.getElementById('all-cats');
+  let html = '';
+  let tid = 0;
+  CATS.forEach(cat=>{
+    html += `<div class="cat-block"><div class="cat-hdr"><div class="cat-name">${cat.name}</div><div class="cat-count">${cat.topics.length} topics</div></div><div class="topic-grid">`;
+    cat.topics.forEach(t=>{
+      const id = tid++;
+      html += `<div class="tc" id="tc-${id}" onclick="this.classList.toggle('done');updateStats()">
+        <span class="tc-pri ${t.p==='c'?'p-c':t.p==='i'?'p-i':'p-n'}">${t.p==='c'?'critical':t.p==='i'?'important':'nice to have'}</span>
+        <div class="tc-name">${t.n}</div>
+        <div class="tc-sub">${t.s}</div>
+        <button class="tc-btn" onclick="event.stopPropagation();loadPrompt('${t.n.replace(/'/g,"\\'")}')">Study prompt ↗</button>
+      </div>`;
+    });
+    html += '</div></div>';
+  });
+  wrap.innerHTML = html;
+}
+
+function renderQuick(){
+  const wrap = document.getElementById('qklist');
+  let html = '';
+  CATS.forEach(cat=>{
+    cat.topics.filter(t=>t.p==='c').forEach(t=>{
+      html += `<div class="qk-row"><div><div class="qk-name">${t.n}</div><div class="qk-sub">${t.s}</div></div><button class="qk-btn" onclick="loadPrompt('${t.n.replace(/'/g,"\\'")}')">Use ↗</button></div>`;
+    });
+  });
+  wrap.innerHTML = html;
+}
+
+renderAll();
+renderQuick();
+updateStats();
+</script>
+</body>
+</html>

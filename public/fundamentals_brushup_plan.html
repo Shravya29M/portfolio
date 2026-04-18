@@ -1,0 +1,546 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fundamentals Brushup Plan</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --color-background-primary:#ffffff;
+  --color-background-secondary:#f5f4f0;
+  --color-background-tertiary:#eeede9;
+  --color-background-info:#e6f1fb;
+  --color-background-danger:#fcebeb;
+  --color-background-warning:#faeeda;
+  --color-background-success:#eaf3de;
+  --color-text-primary:#1a1a18;
+  --color-text-secondary:#5f5e5a;
+  --color-text-info:#185fa5;
+  --color-text-danger:#a32d2d;
+  --color-text-warning:#854f0b;
+  --color-text-success:#3b6d11;
+  --color-border-tertiary:rgba(0,0,0,0.12);
+  --color-border-secondary:rgba(0,0,0,0.22);
+  --color-border-info:#85b7eb;
+  --color-border-success:#97c459;
+  --border-radius-md:8px;
+  --border-radius-lg:12px;
+  --font-sans:system-ui,-apple-system,sans-serif;
+  --font-mono:'Courier New',monospace;
+}
+@media(prefers-color-scheme:dark){
+  :root{
+    --color-background-primary:#1e1d1b;
+    --color-background-secondary:#272622;
+    --color-background-tertiary:#2e2d29;
+    --color-background-info:#042c53;
+    --color-background-danger:#501313;
+    --color-background-warning:#412402;
+    --color-background-success:#173404;
+    --color-text-primary:#e8e6df;
+    --color-text-secondary:#b4b2a9;
+    --color-text-info:#85b7eb;
+    --color-text-danger:#f09595;
+    --color-text-warning:#fac775;
+    --color-text-success:#97c459;
+    --color-border-tertiary:rgba(255,255,255,0.1);
+    --color-border-secondary:rgba(255,255,255,0.2);
+    --color-border-info:#185fa5;
+    --color-border-success:#3b6d11;
+  }
+}
+body{font-family:var(--font-sans);background:var(--color-background-tertiary);color:var(--color-text-primary);min-height:100vh;padding:24px 16px}
+.container{max-width:740px;margin:0 auto}
+h1{font-size:18px;font-weight:500;margin-bottom:4px}
+.subtitle{font-size:13px;color:var(--color-text-secondary);margin-bottom:20px}
+.tabs{display:flex;border-bottom:0.5px solid var(--color-border-tertiary);margin-bottom:1.5rem;overflow-x:auto}
+.tab{padding:9px 15px;font-size:13px;font-weight:500;color:var(--color-text-secondary);cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-0.5px;white-space:nowrap;flex-shrink:0;background:none;border-top:none;border-left:none;border-right:none}
+.tab.active{color:var(--color-text-primary);border-bottom-color:var(--color-text-primary)}
+.panel{display:none}.panel.active{display:block}
+
+.week-label{font-size:11px;font-weight:500;color:var(--color-text-secondary);text-transform:uppercase;letter-spacing:0.06em;margin:1.5rem 0 8px}
+.week-label:first-child{margin-top:0}
+
+.day-block{border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);overflow:hidden;margin-bottom:10px;background:var(--color-background-primary)}
+.day-hdr{display:grid;grid-template-columns:72px 1fr;background:var(--color-background-secondary);border-bottom:0.5px solid var(--color-border-tertiary)}
+.day-left{padding:12px 8px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;border-right:0.5px solid var(--color-border-tertiary)}
+.day-num{font-size:22px;font-weight:500;color:var(--color-text-primary);line-height:1}
+.day-dot{font-size:10px;color:var(--color-text-secondary)}
+.day-tag{font-size:10px;font-weight:500;padding:2px 6px;border-radius:8px;margin-top:2px;text-align:center;white-space:nowrap}
+.day-right{padding:10px 14px;display:flex;flex-direction:column;justify-content:center}
+.day-theme{font-size:13px;font-weight:500;color:var(--color-text-primary)}
+.day-sub{font-size:12px;color:var(--color-text-secondary);margin-top:2px;line-height:1.4}
+
+.sess{display:grid;grid-template-columns:72px 1fr;border-top:0.5px solid var(--color-border-tertiary)}
+.st{padding:10px 8px;font-size:10px;color:var(--color-text-secondary);border-right:0.5px solid var(--color-border-tertiary);display:flex;flex-direction:column;align-items:center;padding-top:12px;gap:2px}
+.st-s{font-weight:500;color:var(--color-text-primary);font-size:10px}
+.st-h{font-size:10px}
+.sb{padding:10px 14px;background:var(--color-background-primary)}
+.sb-title{font-size:13px;font-weight:500;color:var(--color-text-primary);margin-bottom:3px}
+.sb-desc{font-size:12px;color:var(--color-text-secondary);line-height:1.5;margin-bottom:7px}
+.pills{display:flex;flex-wrap:wrap;gap:5px}
+.pill{font-size:11px;padding:3px 9px;border-radius:10px;border:0.5px solid var(--color-border-tertiary);color:var(--color-text-secondary);background:var(--color-background-secondary);cursor:pointer}
+.pill:hover{background:var(--color-background-info);color:var(--color-text-info);border-color:var(--color-border-info)}
+.pill.done{background:var(--color-background-success);color:var(--color-text-success);border-color:var(--color-border-success);text-decoration:line-through}
+
+.t-py{background:#EAF3DE;color:#27500A}
+.t-js{background:#FAEEDA;color:#633806}
+.t-sql{background:#EEEDFE;color:#3C3489}
+.t-ml{background:var(--color-background-info);color:var(--color-text-info)}
+.t-cloud{background:#E1F5EE;color:#085041}
+.t-swe{background:#FBEAF0;color:#72243E}
+.t-review{background:var(--color-background-secondary);color:var(--color-text-secondary);border:0.5px solid var(--color-border-tertiary)}
+
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:1rem}
+.stat{background:var(--color-background-secondary);border-radius:var(--border-radius-md);padding:10px;text-align:center}
+.stat-n{font-size:20px;font-weight:500;color:var(--color-text-primary)}
+.stat-l{font-size:10px;color:var(--color-text-secondary);margin-top:2px}
+.pbar{height:4px;background:var(--color-background-secondary);border-radius:2px;margin-bottom:1.5rem;overflow:hidden}
+.pbar-fill{height:100%;background:var(--color-text-success);border-radius:2px;transition:width 0.3s}
+
+.stack-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:8px;margin-bottom:1.5rem}
+.stack-card{background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-md);padding:10px 12px;cursor:pointer;transition:border-color 0.15s}
+.stack-card:hover{border-color:var(--color-border-info)}
+.stack-card.done{border-color:var(--color-border-success);background:var(--color-background-success)}
+.sc-tag{font-size:10px;font-weight:500;padding:2px 6px;border-radius:8px;display:inline-block;margin-bottom:4px}
+.sc-name{font-size:12px;font-weight:500;color:var(--color-text-primary);margin-bottom:2px}
+.stack-card.done .sc-name{color:var(--color-text-success);text-decoration:line-through}
+.sc-sub{font-size:10px;color:var(--color-text-secondary);line-height:1.4;margin-bottom:6px}
+.sc-btn{font-size:10px;padding:3px 8px;cursor:pointer;background:transparent;border:0.5px solid var(--color-border-secondary);border-radius:6px;color:var(--color-text-info)}
+.sc-btn:hover{background:var(--color-background-info)}
+
+.cat-title{font-size:14px;font-weight:500;color:var(--color-text-primary);margin-bottom:4px}
+
+.pgen-row{display:flex;gap:8px;margin-bottom:10px}
+.pgen-row input{flex:1;font-size:13px;padding:8px 12px;border:0.5px solid var(--color-border-secondary);border-radius:var(--border-radius-md);background:var(--color-background-primary);color:var(--color-text-primary);outline:none}
+.pgen-row input:focus{box-shadow:0 0 0 2px var(--color-border-info)}
+.pgen-row button{font-size:13px;padding:0 14px;white-space:nowrap;cursor:pointer;background:transparent;border:0.5px solid var(--color-border-secondary);border-radius:var(--border-radius-md);color:var(--color-text-primary)}
+.pgen-row button:hover{background:var(--color-background-secondary)}
+.pout{background:var(--color-background-secondary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);padding:1rem 1.25rem}
+.pout-lbl{font-size:10px;font-weight:500;color:var(--color-text-secondary);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:8px}
+.pout-text{font-size:12px;color:var(--color-text-primary);line-height:1.7;font-family:var(--font-mono);white-space:pre-wrap;word-break:break-word}
+.copy-btn{font-size:11px;margin-top:8px;padding:5px 12px;cursor:pointer;background:transparent;border:0.5px solid var(--color-border-secondary);border-radius:var(--border-radius-md);color:var(--color-text-secondary)}
+.copy-btn:hover{background:var(--color-background-secondary)}
+.divider{height:0.5px;background:var(--color-border-tertiary);margin:1rem 0}
+.qk-row{display:flex;align-items:center;justify-content:space-between;padding:7px 0;border-bottom:0.5px solid var(--color-border-tertiary)}
+.qk-name{font-size:13px;color:var(--color-text-primary)}
+.qk-sub{font-size:11px;color:var(--color-text-secondary)}
+.qk-btn{font-size:11px;padding:4px 10px;cursor:pointer;background:transparent;border:0.5px solid var(--color-border-secondary);border-radius:var(--border-radius-md);color:var(--color-text-info);white-space:nowrap;flex-shrink:0;margin-left:10px}
+.qk-btn:hover{background:var(--color-background-info)}
+</style>
+</head>
+<body>
+<div class="container">
+  <h1>Fundamentals brushup plan</h1>
+  <p class="subtitle">8 days · all languages & tools from your resume · 70+ topics · prompt generator</p>
+
+  <div class="tabs">
+    <button class="tab active" onclick="sw('plan')">8-day plan</button>
+    <button class="tab" onclick="sw('tracker')">Stack tracker</button>
+    <button class="tab" onclick="sw('prompt')">Prompt generator</button>
+  </div>
+
+  <!-- PLAN TAB -->
+  <div id="tab-plan" class="panel active">
+
+    <div class="week-label">Week 1 — Languages & core CS</div>
+
+    <div class="day-block">
+      <div class="day-hdr">
+        <div class="day-left"><div class="day-num">1</div><div class="day-dot">Mon</div><div class="day-tag t-py">Python</div></div>
+        <div class="day-right"><div class="day-theme">Python internals + production patterns</div><div class="day-sub">You use Python daily — but can you explain it? GIL, memory model, async, type hints, decorators.</div></div>
+      </div>
+      <div class="sess"><div class="st"><div class="st-s">AM</div><div class="st-h">2 hrs</div></div><div class="sb">
+        <div class="sb-title">Python internals: memory, GIL, objects</div>
+        <div class="sb-desc">How CPython manages memory (reference counting + GC), what the GIL is and why it matters for threading vs multiprocessing, mutable vs immutable objects, pass-by-object-reference.</div>
+        <div class="pills"><span class="pill" onclick="td(this)">GIL</span><span class="pill" onclick="td(this)">CPython memory model</span><span class="pill" onclick="td(this)">Mutable vs immutable</span><span class="pill" onclick="td(this)">Generators & iterators</span></div>
+      </div></div>
+      <div class="sess"><div class="st"><div class="st-s">PM</div><div class="st-h">2 hrs</div></div><div class="sb">
+        <div class="sb-title">Python async, decorators, type hints, dataclasses</div>
+        <div class="sb-desc">async/await event loop internals, writing and stacking decorators, typing module for production code, dataclasses vs NamedTuple vs Pydantic. All used in your FastAPI projects.</div>
+        <div class="pills"><span class="pill" onclick="td(this)">async/await & asyncio</span><span class="pill" onclick="td(this)">Decorators</span><span class="pill" onclick="td(this)">Type hints & mypy</span><span class="pill" onclick="td(this)">Pydantic / dataclasses</span></div>
+      </div></div>
+      <div class="sess"><div class="st"><div class="st-s">EVE</div><div class="st-h">1.5 hrs</div></div><div class="sb">
+        <div class="sb-title">Python data stack: NumPy, Pandas, performance</div>
+        <div class="sb-desc">NumPy broadcasting, vectorization over loops, Pandas groupby/merge/apply internals, memory efficiency with chunking. Relevant to your Brown ETL pipelines and 1M+ data point analysis.</div>
+        <div class="pills"><span class="pill" onclick="td(this)">NumPy broadcasting</span><span class="pill" onclick="td(this)">Pandas internals</span><span class="pill" onclick="td(this)">Vectorization vs loops</span></div>
+      </div></div>
+    </div>
+
+    <div class="day-block">
+      <div class="day-hdr">
+        <div class="day-left"><div class="day-num">2</div><div class="day-dot">Tue</div><div class="day-tag t-js">JS + Java</div></div>
+        <div class="day-right"><div class="day-theme">JavaScript & Java fundamentals</div><div class="day-sub">Both are on your resume and in the JD tech stack. Enough to read, write, and discuss confidently.</div></div>
+      </div>
+      <div class="sess"><div class="st"><div class="st-s">AM</div><div class="st-h">2 hrs</div></div><div class="sb">
+        <div class="sb-title">JavaScript: event loop, promises, async/await, closures</div>
+        <div class="sb-desc">JS event loop (call stack, task queue, microtask queue), how Promises work under the hood, async/await as syntactic sugar, closure and scope, ES6+ features. Used in your React work.</div>
+        <div class="pills"><span class="pill" onclick="td(this)">JS event loop</span><span class="pill" onclick="td(this)">Promises & async/await</span><span class="pill" onclick="td(this)">Closures & scope</span><span class="pill" onclick="td(this)">ES6+ features</span><span class="pill" onclick="td(this)">React basics</span></div>
+      </div></div>
+      <div class="sess"><div class="st"><div class="st-s">PM</div><div class="st-h">2 hrs</div></div><div class="sb">
+        <div class="sb-title">Java: OOP, JVM, collections, concurrency</div>
+        <div class="sb-desc">Java OOP pillars, JVM memory model (heap, stack, GC), generics, Collections framework (ArrayList, HashMap internals), basic concurrency (threads, synchronized, ExecutorService).</div>
+        <div class="pills"><span class="pill" onclick="td(this)">Java OOP</span><span class="pill" onclick="td(this)">JVM & garbage collection</span><span class="pill" onclick="td(this)">Java Collections</span><span class="pill" onclick="td(this)">Java concurrency basics</span></div>
+      </div></div>
+      <div class="sess"><div class="st"><div class="st-s">EVE</div><div class="st-h">1 hr</div></div><div class="sb">
+        <div class="sb-title">SQL fundamentals + database concepts</div>
+        <div class="sb-desc">JOINs, window functions, indexes, query execution plan, transactions (ACID), normalization. Used in your Brown ETL work with SQLite in DriftGuard.</div>
+        <div class="pills"><span class="pill" onclick="td(this)">SQL JOINs</span><span class="pill" onclick="td(this)">Window functions</span><span class="pill" onclick="td(this)">Indexes & query planning</span><span class="pill" onclick="td(this)">ACID transactions</span></div>
+      </div></div>
+    </div>
+
+    <div class="day-block">
+      <div class="day-hdr">
+        <div class="day-left"><div class="day-num">3</div><div class="day-dot">Wed</div><div class="day-tag t-ml">ML stack</div></div>
+        <div class="day-right"><div class="day-theme">PyTorch, TensorFlow/Keras, Scikit-learn, Hugging Face</div><div class="day-sub">The ML libraries you listed — reinforce how they work, not just that you used them.</div></div>
+      </div>
+      <div class="sess"><div class="st"><div class="st-s">AM</div><div class="st-h">2 hrs</div></div><div class="sb">
+        <div class="sb-title">PyTorch: tensors, autograd, custom datasets, training loop</div>
+        <div class="sb-desc">Tensor operations and broadcasting, how autograd tracks gradients (computation graph), writing a custom Dataset + DataLoader, training loop (zero_grad → forward → loss → backward → step), model checkpointing.</div>
+        <div class="pills"><span class="pill" onclick="td(this)">PyTorch autograd</span><span class="pill" onclick="td(this)">Custom Dataset / DataLoader</span><span class="pill" onclick="td(this)">Training loop pattern</span><span class="pill" onclick="td(this)">Model checkpointing</span></div>
+      </div></div>
+      <div class="sess"><div class="st"><div class="st-s">PM</div><div class="st-h">1.5 hrs</div></div><div class="sb">
+        <div class="sb-title">Hugging Face: transformers, tokenizers, Trainer, PEFT</div>
+        <div class="sb-desc">AutoModel / AutoTokenizer API, how the pipeline abstraction works, fine-tuning with Trainer API, PEFT/LoRA adapters. You used HF for Elyssa — know it deeply.</div>
+        <div class="pills"><span class="pill" onclick="td(this)">HF AutoModel / AutoTokenizer</span><span class="pill" onclick="td(this)">Trainer API</span><span class="pill" onclick="td(this)">HF PEFT / LoRA</span><span class="pill" onclick="td(this)">Pipeline abstraction</span></div>
+      </div></div>
+      <div class="sess"><div class="st"><div class="st-s">EVE</div><div class="st-h">1.5 hrs</div></div><div class="sb">
+        <div class="sb-title">Scikit-learn, Keras, OpenCV patterns</div>
+        <div class="sb-desc">Scikit-learn Pipeline + ColumnTransformer, cross_val_score, GridSearchCV. Keras Sequential vs Functional API, callbacks. OpenCV image ops used in your CV work.</div>
+        <div class="pills"><span class="pill" onclick="td(this)">Scikit-learn Pipeline</span><span class="pill" onclick="td(this)">Keras Functional API</span><span class="pill" onclick="td(this)">OpenCV basics</span><span class="pill" onclick="td(this)">Cross-validation patterns</span></div>
+      </div></div>
+    </div>
+
+    <div class="day-block">
+      <div class="day-hdr">
+        <div class="day-left"><div class="day-num">4</div><div class="day-dot">Thu</div><div class="day-tag t-cloud">AWS + Cloud</div></div>
+        <div class="day-right"><div class="day-theme">AWS Lambda, EC2, S3, API Gateway, GCP, CI/CD</div><div class="day-sub">You have AWS Cloud Practitioner and GCP Digital Leader certs — now go one level deeper.</div></div>
+      </div>
+      <div class="sess"><div class="st"><div class="st-s">AM</div><div class="st-h">2 hrs</div></div><div class="sb">
+        <div class="sb-title">AWS Lambda + API Gateway in depth</div>
+        <div class="sb-desc">Lambda execution model (init phase, invoke phase, cold start), handler function patterns, layers for dependencies, concurrency limits, Lambda + API Gateway integration, throttling. You built this at Pentabrains.</div>
+        <div class="pills"><span class="pill" onclick="td(this)">Lambda execution model</span><span class="pill" onclick="td(this)">Cold start & warm up</span><span class="pill" onclick="td(this)">Lambda layers</span><span class="pill" onclick="td(this)">API Gateway proxy integration</span></div>
+      </div></div>
+      <div class="sess"><div class="st"><div class="st-s">PM</div><div class="st-h">2 hrs</div></div><div class="sb">
+        <div class="sb-title">EC2, S3, IAM, CloudFormation, CloudWatch</div>
+        <div class="sb-desc">EC2 instance types, AMIs, security groups. S3 bucket policies, versioning, presigned URLs. IAM roles vs users vs policies, least-privilege. CloudFormation stacks. CloudWatch metrics and alarms.</div>
+        <div class="pills"><span class="pill" onclick="td(this)">EC2 fundamentals</span><span class="pill" onclick="td(this)">S3 access patterns</span><span class="pill" onclick="td(this)">IAM roles & policies</span><span class="pill" onclick="td(this)">CloudFormation stacks</span><span class="pill" onclick="td(this)">CloudWatch</span></div>
+      </div></div>
+      <div class="sess"><div class="st"><div class="st-s">EVE</div><div class="st-h">1 hr</div></div><div class="sb">
+        <div class="sb-title">GitHub Actions CI/CD + GCP overview</div>
+        <div class="sb-desc">GitHub Actions: workflow YAML structure, triggers, matrix builds, secrets management, deployment steps. GCP: Compute Engine vs Cloud Run vs GKE, enough to speak to your GCP Digital Leader cert.</div>
+        <div class="pills"><span class="pill" onclick="td(this)">GitHub Actions YAML</span><span class="pill" onclick="td(this)">CI/CD pipeline patterns</span><span class="pill" onclick="td(this)">GCP Cloud Run basics</span></div>
+      </div></div>
+    </div>
+
+    <div class="week-label">Week 2 — Frameworks, DevOps & systems</div>
+
+    <div class="day-block">
+      <div class="day-hdr">
+        <div class="day-left"><div class="day-num">5</div><div class="day-dot">Fri</div><div class="day-tag t-swe">FastAPI + Docker</div></div>
+        <div class="day-right"><div class="day-theme">FastAPI internals, Docker, REST API design</div><div class="day-sub">You used FastAPI + Docker in DriftGuard and Elyssa — understand them deeply, not just "it works".</div></div>
+      </div>
+      <div class="sess"><div class="st"><div class="st-s">AM</div><div class="st-h">2 hrs</div></div><div class="sb">
+        <div class="sb-title">FastAPI: request lifecycle, dependency injection, async, middleware</div>
+        <div class="sb-desc">How FastAPI handles a request (ASGI, Starlette, routing), Depends() dependency injection, background tasks, middleware stack, Pydantic validation on request/response, OpenAPI schema generation.</div>
+        <div class="pills"><span class="pill" onclick="td(this)">ASGI vs WSGI</span><span class="pill" onclick="td(this)">FastAPI Depends()</span><span class="pill" onclick="td(this)">Middleware patterns</span><span class="pill" onclick="td(this)">Pydantic request models</span><span class="pill" onclick="td(this)">Background tasks</span></div>
+      </div></div>
+      <div class="sess"><div class="st"><div class="st-s">PM</div><div class="st-h">2 hrs</div></div><div class="sb">
+        <div class="sb-title">Docker: images, layers, multi-stage builds, networking</div>
+        <div class="sb-desc">How Docker layers and the union filesystem work, Dockerfile best practices for ML, multi-stage builds to minimize image size (you used this in DriftGuard), docker-compose, container networking.</div>
+        <div class="pills"><span class="pill" onclick="td(this)">Docker layer caching</span><span class="pill" onclick="td(this)">Multi-stage Dockerfile</span><span class="pill" onclick="td(this)">Docker networking</span><span class="pill" onclick="td(this)">docker-compose patterns</span></div>
+      </div></div>
+      <div class="sess"><div class="st"><div class="st-s">EVE</div><div class="st-h">1 hr</div></div><div class="sb">
+        <div class="sb-title">REST API design principles + Prometheus metrics</div>
+        <div class="sb-desc">RESTful resource naming, HTTP verbs, status codes, API versioning strategies, pagination. Prometheus: counters vs gauges vs histograms, /metrics endpoint, how you used it in DriftGuard.</div>
+        <div class="pills"><span class="pill" onclick="td(this)">REST resource design</span><span class="pill" onclick="td(this)">HTTP status codes</span><span class="pill" onclick="td(this)">Prometheus metrics types</span></div>
+      </div></div>
+    </div>
+
+    <div class="day-block">
+      <div class="day-hdr">
+        <div class="day-left"><div class="day-num">6</div><div class="day-dot">Sat</div><div class="day-tag t-swe">K8s + Systems</div></div>
+        <div class="day-right"><div class="day-theme">Kubernetes, Linux, Git, operating systems, networking</div><div class="day-sub">You deployed Elyssa on Kubernetes with autoscaling — know what's actually happening under the hood.</div></div>
+      </div>
+      <div class="sess"><div class="st"><div class="st-s">AM</div><div class="st-h">2 hrs</div></div><div class="sb">
+        <div class="sb-title">Kubernetes: pods, deployments, services, HPA, secrets</div>
+        <div class="sb-desc">K8s architecture (control plane vs worker nodes), Pod vs Deployment vs StatefulSet, Services (ClusterIP/NodePort/LoadBalancer), HPA autoscaling, ConfigMaps and Secrets, resource requests vs limits.</div>
+        <div class="pills"><span class="pill" onclick="td(this)">K8s control plane</span><span class="pill" onclick="td(this)">Deployments & pods</span><span class="pill" onclick="td(this)">HPA autoscaling</span><span class="pill" onclick="td(this)">Services & networking</span><span class="pill" onclick="td(this)">ConfigMaps & Secrets</span></div>
+      </div></div>
+      <div class="sess"><div class="st"><div class="st-s">PM</div><div class="st-h">1.5 hrs</div></div><div class="sb">
+        <div class="sb-title">Linux, OS concepts, Git internals</div>
+        <div class="sb-desc">Linux: process management, filesystem hierarchy, permissions, shell scripting. OS: processes vs threads, context switching, virtual memory. Git: DAG model, rebase vs merge, interactive rebase, Git workflows.</div>
+        <div class="pills"><span class="pill" onclick="td(this)">Linux process management</span><span class="pill" onclick="td(this)">OS: processes vs threads</span><span class="pill" onclick="td(this)">Git internals (DAG)</span><span class="pill" onclick="td(this)">Git rebase vs merge</span></div>
+      </div></div>
+      <div class="sess"><div class="st"><div class="st-s">EVE</div><div class="st-h">1 hr</div></div><div class="sb">
+        <div class="sb-title">Computer networks fundamentals</div>
+        <div class="sb-desc">TCP/IP model, how HTTP/HTTPS works (TLS handshake), DNS resolution, load balancing, REST vs gRPC, websockets. Your coursework included Computer Networks — revisit the key concepts.</div>
+        <div class="pills"><span class="pill" onclick="td(this)">TCP/IP model</span><span class="pill" onclick="td(this)">HTTP/HTTPS & TLS</span><span class="pill" onclick="td(this)">DNS & load balancing</span><span class="pill" onclick="td(this)">REST vs gRPC</span></div>
+      </div></div>
+    </div>
+
+    <div class="day-block">
+      <div class="day-hdr">
+        <div class="day-left"><div class="day-num">7</div><div class="day-dot">Sun</div><div class="day-tag t-ml">Data & stats</div></div>
+        <div class="day-right"><div class="day-theme">Statistics, data mining, Selenium/crawling, databases</div><div class="day-sub">Analytical and data foundations behind your Brown research and DriftGuard drift detection.</div></div>
+      </div>
+      <div class="sess"><div class="st"><div class="st-s">AM</div><div class="st-h">2 hrs</div></div><div class="sb">
+        <div class="sb-title">Statistics: hypothesis testing, regression, distributions</div>
+        <div class="sb-desc">Hypothesis testing (p-values, t-test, chi-squared), confidence intervals, central limit theorem, OLS regression (assumptions, residuals), common distributions. Foundation for your Brown regression analysis and KS test in DriftGuard.</div>
+        <div class="pills"><span class="pill" onclick="td(this)">Hypothesis testing</span><span class="pill" onclick="td(this)">p-values & confidence intervals</span><span class="pill" onclick="td(this)">OLS regression</span><span class="pill" onclick="td(this)">Common distributions</span><span class="pill" onclick="td(this)">KS test</span></div>
+      </div></div>
+      <div class="sess"><div class="st"><div class="st-s">PM</div><div class="st-h">1.5 hrs</div></div><div class="sb">
+        <div class="sb-title">Data mining, ETL patterns, Selenium crawling</div>
+        <div class="sb-desc">Data mining techniques (association rules, clustering, anomaly detection). ETL: extraction strategies, fault tolerance, retries (your crawler). Selenium: WebDriver API, waits, bot-avoidance strategies.</div>
+        <div class="pills"><span class="pill" onclick="td(this)">Data mining techniques</span><span class="pill" onclick="td(this)">ETL fault tolerance</span><span class="pill" onclick="td(this)">Selenium WebDriver</span><span class="pill" onclick="td(this)">Explicit vs implicit waits</span></div>
+      </div></div>
+      <div class="sess"><div class="st"><div class="st-s">EVE</div><div class="st-h">1 hr</div></div><div class="sb">
+        <div class="sb-title">Database deep dive: SQLite, indexing, FAISS vs SQL</div>
+        <div class="sb-desc">SQLite WAL mode, concurrent reads, your DriftGuard SQLite usage. Indexing strategies (B-tree, hash index). When to use relational DB vs vector DB vs document store. FAISS atomic A/B swaps.</div>
+        <div class="pills"><span class="pill" onclick="td(this)">SQLite internals</span><span class="pill" onclick="td(this)">Indexing strategies</span><span class="pill" onclick="td(this)">DB selection trade-offs</span></div>
+      </div></div>
+    </div>
+
+    <div class="day-block">
+      <div class="day-hdr">
+        <div class="day-left"><div class="day-num">8</div><div class="day-dot">Mon</div><div class="day-tag t-review">Synthesis</div></div>
+        <div class="day-right"><div class="day-theme">Project story rehearsal + weak spot review</div><div class="day-sub">The goal: explain every line of your resume technically — not just what you did but how and why.</div></div>
+      </div>
+      <div class="sess"><div class="st"><div class="st-s">AM</div><div class="st-h">2 hrs</div></div><div class="sb">
+        <div class="sb-title">Deep technical rehearsal: DriftGuard + Elyssa</div>
+        <div class="sb-desc">DriftGuard: explain chunking → embedding → FAISS → KS drift → FastAPI → Prometheus → Docker. Elyssa: microservices split, LLM fine-tuning pipeline, Kubernetes deployment, ROUGE F1 calculation. No notes. Time yourself.</div>
+        <div class="pills"><span class="pill" onclick="td(this)">DriftGuard full stack walkthrough</span><span class="pill" onclick="td(this)">Elyssa architecture walkthrough</span></div>
+      </div></div>
+      <div class="sess"><div class="st"><div class="st-s">PM</div><div class="st-h">1.5 hrs</div></div><div class="sb">
+        <div class="sb-title">Deep technical rehearsal: 3D CNN + Brown crawler</div>
+        <div class="sb-desc">3D CNN: explain architecture choices, slice extraction, 5-fold CV design, class-weight balancing, why AUC not accuracy. Brown crawler: multi-phase discovery, fault-tolerant retries, ETL merge, regression setup.</div>
+        <div class="pills"><span class="pill" onclick="td(this)">3D CNN MRI walkthrough</span><span class="pill" onclick="td(this)">Brown ETL crawler walkthrough</span></div>
+      </div></div>
+      <div class="sess"><div class="st"><div class="st-s">EVE</div><div class="st-h">1 hr</div></div><div class="sb">
+        <div class="sb-title">Tracker review + prompt generator for remaining gaps</div>
+        <div class="sb-desc">Go to the Stack Tracker tab. Any card not marked done → use the prompt generator to study it tonight. Then rest.</div>
+        <div class="pills"><span class="pill" onclick="td(this)">All gaps addressed</span></div>
+      </div></div>
+    </div>
+
+  </div>
+
+  <!-- TRACKER TAB -->
+  <div id="tab-tracker" class="panel">
+    <div class="stats">
+      <div class="stat"><div class="stat-n" id="sn-t">0</div><div class="stat-l">total</div></div>
+      <div class="stat"><div class="stat-n" id="sn-d">0</div><div class="stat-l">done</div></div>
+      <div class="stat"><div class="stat-n" id="sn-p">0%</div><div class="stat-l">progress</div></div>
+      <div class="stat"><div class="stat-n" id="sn-r">0</div><div class="stat-l">remaining</div></div>
+    </div>
+    <div class="pbar"><div class="pbar-fill" id="pfill" style="width:0%"></div></div>
+    <div id="all-stacks"></div>
+  </div>
+
+  <!-- PROMPT TAB -->
+  <div id="tab-prompt" class="panel">
+    <div style="font-size:13px;color:var(--color-text-secondary);margin-bottom:10px;line-height:1.5">Type any technology, concept, or tool from your stack. Get a study prompt tuned to your background — paste it into a new Claude chat for a complete lesson.</div>
+    <div class="pgen-row">
+      <input type="text" id="pf" placeholder="e.g. FastAPI Depends(), Docker multi-stage, PyTorch autograd..." oninput="liveGen()" onkeydown="if(event.key==='Enter')genP()"/>
+      <button onclick="genP()">Generate ↗</button>
+    </div>
+    <div class="pout">
+      <div class="pout-lbl">Your study prompt</div>
+      <div class="pout-text" id="pout-text">Start typing above — your prompt appears instantly.</div>
+    </div>
+    <button class="copy-btn" onclick="copyP()">Copy prompt</button>
+    <div class="divider"></div>
+    <div style="font-size:13px;font-weight:500;color:var(--color-text-primary);margin-bottom:10px">All topics — quick access</div>
+    <div id="qklist"></div>
+  </div>
+
+</div>
+
+<script>
+const STACKS = [
+  {cat:"Python",color:"t-py",items:[
+    {n:"GIL & CPython memory",s:"Reference counting, GC, why threads don't parallelize CPU work"},
+    {n:"async/await & asyncio",s:"Event loop, coroutines, Tasks, when async helps"},
+    {n:"Decorators",s:"First-class functions, wraps, stacking decorators"},
+    {n:"Type hints & mypy",s:"typing module, strict mypy, runtime vs static checking"},
+    {n:"Pydantic / dataclasses",s:"Validation, serialization, used across your projects"},
+    {n:"NumPy broadcasting",s:"Shape rules, vectorization, memory layout"},
+    {n:"Pandas internals",s:"groupby, merge, apply, chunked reading for large data"},
+    {n:"Generators & iterators",s:"yield, lazy evaluation, memory efficiency"},
+  ]},
+  {cat:"JavaScript & Java",color:"t-js",items:[
+    {n:"JS event loop",s:"Call stack, task queue, microtask queue"},
+    {n:"Promises & async/await (JS)",s:"Promise chaining, error handling, all/race/allSettled"},
+    {n:"Closures & scope (JS)",s:"Lexical scope, closure use cases, var/let/const"},
+    {n:"ES6+ features",s:"Destructuring, spread, optional chaining, modules"},
+    {n:"React fundamentals",s:"Components, hooks, state, effect, virtual DOM"},
+    {n:"Java OOP",s:"Encapsulation, inheritance, polymorphism, interfaces"},
+    {n:"JVM & garbage collection",s:"Heap, stack, GC algorithms, OutOfMemoryError"},
+    {n:"Java Collections",s:"ArrayList vs LinkedList, HashMap internals, TreeMap"},
+    {n:"Java concurrency basics",s:"Thread, Runnable, synchronized, ExecutorService"},
+  ]},
+  {cat:"SQL & databases",color:"t-sql",items:[
+    {n:"SQL JOINs",s:"INNER, LEFT, RIGHT, FULL, CROSS — when each applies"},
+    {n:"Window functions",s:"ROW_NUMBER, RANK, LAG/LEAD, PARTITION BY"},
+    {n:"Indexes & query planning",s:"B-tree index, EXPLAIN, covering index, cardinality"},
+    {n:"ACID transactions",s:"Atomicity, consistency, isolation, durability"},
+    {n:"SQLite internals",s:"WAL mode, concurrent reads, when to use SQLite"},
+    {n:"DB selection trade-offs",s:"Relational vs vector vs document store"},
+  ]},
+  {cat:"ML libraries",color:"t-ml",items:[
+    {n:"PyTorch autograd",s:"Computation graph, requires_grad, .backward()"},
+    {n:"Custom Dataset / DataLoader",s:"__getitem__, __len__, collate_fn, num_workers"},
+    {n:"PyTorch training loop",s:"zero_grad → forward → loss → backward → step"},
+    {n:"Model checkpointing",s:"state_dict, saving/loading, resuming training"},
+    {n:"HF AutoModel / AutoTokenizer",s:"Pretrained weights, tokenizer alignment"},
+    {n:"Trainer API",s:"Training args, callbacks, evaluate, predict"},
+    {n:"HF PEFT / LoRA",s:"get_peft_model, LoraConfig, trainable params"},
+    {n:"Scikit-learn Pipeline",s:"ColumnTransformer, make_pipeline, fit/transform"},
+    {n:"Keras Functional API",s:"Input, layer chaining, multiple inputs/outputs"},
+    {n:"OpenCV basics",s:"imread, cvtColor, resize, morphological ops"},
+  ]},
+  {cat:"AWS & cloud",color:"t-cloud",items:[
+    {n:"Lambda execution model",s:"Init phase, handler, cold start, memory config"},
+    {n:"Lambda layers",s:"Packaging dependencies, shared layers, size limits"},
+    {n:"API Gateway proxy integration",s:"Event format, response format, CORS"},
+    {n:"EC2 fundamentals",s:"Instance types, AMIs, security groups, key pairs"},
+    {n:"S3 access patterns",s:"Bucket policies, presigned URLs, versioning"},
+    {n:"IAM roles & policies",s:"Least privilege, role assumption, policy JSON"},
+    {n:"CloudFormation stacks",s:"Resources, parameters, outputs, stack updates"},
+    {n:"CloudWatch metrics",s:"Namespaces, alarms, log groups, metric filters"},
+    {n:"GitHub Actions YAML",s:"Triggers, jobs, steps, secrets, matrix builds"},
+    {n:"GCP Cloud Run basics",s:"Serverless containers, auto-scaling, pricing"},
+  ]},
+  {cat:"FastAPI & Docker",color:"t-swe",items:[
+    {n:"ASGI vs WSGI",s:"Async vs sync server gateways, Starlette, Uvicorn"},
+    {n:"FastAPI Depends()",s:"Dependency injection, sub-dependencies, overrides"},
+    {n:"FastAPI middleware",s:"Request/response middleware, CORS, auth patterns"},
+    {n:"Pydantic request models",s:"Validation, nested models, custom validators"},
+    {n:"Docker layer caching",s:"Union filesystem, layer ordering for cache hits"},
+    {n:"Multi-stage Dockerfile",s:"Builder stage, final stage, size reduction"},
+    {n:"Docker networking",s:"Bridge, host, overlay networks, container DNS"},
+    {n:"Prometheus metrics types",s:"Counter, gauge, histogram, summary"},
+  ]},
+  {cat:"Kubernetes & systems",color:"t-swe",items:[
+    {n:"K8s control plane",s:"API server, etcd, scheduler, controller manager"},
+    {n:"Deployments & pods",s:"ReplicaSet, rolling updates, readiness probes"},
+    {n:"HPA autoscaling",s:"Metrics server, CPU/memory targets, scale-up lag"},
+    {n:"K8s Services & networking",s:"ClusterIP, NodePort, LoadBalancer, Ingress"},
+    {n:"ConfigMaps & Secrets",s:"Env injection, volume mounts, secret encoding"},
+    {n:"Linux process management",s:"ps, top, signals, kill, fg/bg, cgroups"},
+    {n:"OS: processes vs threads",s:"Context switching, virtual memory, scheduling"},
+    {n:"Git internals (DAG)",s:"Commits, branches, HEAD, refs, object store"},
+    {n:"TCP/IP model",s:"Layers, packets, TCP handshake, UDP trade-offs"},
+  ]},
+  {cat:"Statistics & data",color:"t-ml",items:[
+    {n:"Hypothesis testing",s:"Null hypothesis, p-value, Type I/II errors"},
+    {n:"p-values & confidence intervals",s:"Interpreting p<0.05, CI construction"},
+    {n:"OLS regression",s:"Assumptions (BLUE), residual diagnostics, R²"},
+    {n:"Common distributions",s:"Normal, Poisson, Bernoulli, when each applies"},
+    {n:"KS test",s:"Two-sample KS statistic, p-value, your DriftGuard usage"},
+    {n:"Data mining techniques",s:"Association rules, anomaly detection, clustering"},
+    {n:"ETL fault tolerance",s:"Idempotency, retries, checkpointing, your crawler"},
+    {n:"Selenium WebDriver",s:"Driver setup, locators, explicit waits, bot delays"},
+  ]},
+];
+
+const PT = (topic) =>
+`I'm brushing up on fundamentals for a technical interview. I need to understand "${topic}" deeply — not just that I used it, but how it works under the hood.
+
+Please teach me everything I need, structured as:
+
+1. What it is and why it exists (plain English, 2–3 sentences)
+2. How it actually works internally (the mechanism — go deep)
+3. Key concepts and terminology I should be able to define
+4. Common pitfalls, gotchas, and edge cases
+5. A concrete code example or usage pattern showing best practice
+6. How I would explain this in an interview if asked "how does X work?"
+7. What differentiates a junior vs senior answer about this topic
+
+Context: I've built production systems using this (FastAPI + Docker + FAISS RAG pipeline, Kubernetes microservices, AWS Lambda APIs, PyTorch 3D CNN for MRI classification). Skip surface-level explanations — go deep on internals and trade-offs.`;
+
+function sw(name){
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+  document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
+  document.querySelector(`[onclick="sw('${name}')"]`).classList.add('active');
+  document.getElementById('tab-'+name).classList.add('active');
+}
+
+function td(el){ el.classList.toggle('done'); }
+
+function updateStats(){
+  const all=document.querySelectorAll('.stack-card');
+  const done=document.querySelectorAll('.stack-card.done');
+  document.getElementById('sn-t').textContent=all.length;
+  document.getElementById('sn-d').textContent=done.length;
+  document.getElementById('sn-p').textContent=all.length?Math.round(done.length/all.length*100)+'%':'0%';
+  document.getElementById('sn-r').textContent=all.length-done.length;
+  document.getElementById('pfill').style.width=all.length?Math.round(done.length/all.length*100)+'%':'0%';
+}
+
+function loadP(name){
+  document.getElementById('pf').value=name;
+  document.getElementById('pout-text').textContent=PT(name);
+  sw('prompt');
+}
+
+function liveGen(){
+  const v=document.getElementById('pf').value.trim();
+  document.getElementById('pout-text').textContent=v?PT(v):'Start typing above — your prompt appears instantly.';
+}
+
+function genP(){
+  const v=document.getElementById('pf').value.trim();
+  if(!v)return;
+  document.getElementById('pout-text').textContent=PT(v);
+}
+
+function copyP(){
+  const t=document.getElementById('pout-text').textContent;
+  if(t.startsWith('Start'))return;
+  navigator.clipboard.writeText(t).then(()=>{
+    const b=document.querySelector('.copy-btn');
+    b.textContent='Copied!';
+    setTimeout(()=>b.textContent='Copy prompt',1800);
+  });
+}
+
+function renderStacks(){
+  const wrap=document.getElementById('all-stacks');
+  let html='';
+  STACKS.forEach(cat=>{
+    html+=`<div style="margin-bottom:1.5rem"><div class="cat-title">${cat.cat}</div><div class="stack-grid">`;
+    cat.items.forEach(item=>{
+      html+=`<div class="stack-card" onclick="this.classList.toggle('done');updateStats()">
+        <span class="sc-tag ${cat.color}">${cat.cat}</span>
+        <div class="sc-name">${item.n}</div>
+        <div class="sc-sub">${item.s}</div>
+        <button class="sc-btn" onclick="event.stopPropagation();loadP('${item.n.replace(/'/g,"\\'")}')">Study prompt ↗</button>
+      </div>`;
+    });
+    html+='</div></div>';
+  });
+  wrap.innerHTML=html;
+  updateStats();
+}
+
+function renderQuick(){
+  const wrap=document.getElementById('qklist');
+  let html='';
+  STACKS.forEach(cat=>{
+    cat.items.forEach(item=>{
+      html+=`<div class="qk-row">
+        <div><div class="qk-name">${item.n}</div><div class="qk-sub">${item.s}</div></div>
+        <button class="qk-btn" onclick="loadP('${item.n.replace(/'/g,"\\'")}')">Use ↗</button>
+      </div>`;
+    });
+  });
+  wrap.innerHTML=html;
+}
+
+renderStacks();
+renderQuick();
+</script>
+</body>
+</html>
