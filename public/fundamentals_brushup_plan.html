@@ -467,7 +467,30 @@ function sw(name){
   document.getElementById('tab-'+name).classList.add('active');
 }
 
-function td(el){ el.classList.toggle('done'); }
+function saveState(){
+  const cardDone=[];
+  document.querySelectorAll('.stack-card.done').forEach(el=>{
+    const n=el.querySelector('.sc-name');
+    if(n)cardDone.push(n.textContent.trim());
+  });
+  const pillDone=[];
+  document.querySelectorAll('.pill.done').forEach(el=>pillDone.push(el.textContent.trim()));
+  localStorage.setItem('fb_state',JSON.stringify({cardDone,pillDone}));
+}
+
+function restoreState(){
+  const raw=localStorage.getItem('fb_state');
+  if(!raw)return;
+  const {cardDone=[],pillDone=[]}=JSON.parse(raw);
+  document.querySelectorAll('.stack-card').forEach(el=>{
+    const n=el.querySelector('.sc-name');
+    if(n&&cardDone.includes(n.textContent.trim()))el.classList.add('done');
+  });
+  document.querySelectorAll('.pill').forEach(el=>{if(pillDone.includes(el.textContent.trim()))el.classList.add('done');});
+  updateStats();
+}
+
+function td(el){ el.classList.toggle('done'); saveState(); }
 
 function updateStats(){
   const all=document.querySelectorAll('.stack-card');
@@ -512,7 +535,7 @@ function renderStacks(){
   STACKS.forEach(cat=>{
     html+=`<div style="margin-bottom:1.5rem"><div class="cat-title">${cat.cat}</div><div class="stack-grid">`;
     cat.items.forEach(item=>{
-      html+=`<div class="stack-card" onclick="this.classList.toggle('done');updateStats()">
+      html+=`<div class="stack-card" onclick="this.classList.toggle('done');updateStats();saveState()">
         <span class="sc-tag ${cat.color}">${cat.cat}</span>
         <div class="sc-name">${item.n}</div>
         <div class="sc-sub">${item.s}</div>
@@ -541,6 +564,7 @@ function renderQuick(){
 
 renderStacks();
 renderQuick();
+restoreState();
 </script>
 </body>
 </html>

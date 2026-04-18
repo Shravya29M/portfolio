@@ -407,7 +407,24 @@ function sw(name){
   document.getElementById('tab-'+name).classList.add('active');
 }
 
-function td(el){ el.classList.toggle('done'); }
+function saveState(){
+  const tcDone=[];
+  document.querySelectorAll('.tc.done').forEach(el=>tcDone.push(el.id));
+  const pillDone=[];
+  document.querySelectorAll('.pill.done').forEach(el=>pillDone.push(el.textContent.trim()));
+  localStorage.setItem('fi_state',JSON.stringify({tcDone,pillDone}));
+}
+
+function restoreState(){
+  const raw=localStorage.getItem('fi_state');
+  if(!raw)return;
+  const {tcDone=[],pillDone=[]}=JSON.parse(raw);
+  tcDone.forEach(id=>{const el=document.getElementById(id);if(el)el.classList.add('done');});
+  document.querySelectorAll('.pill').forEach(el=>{if(pillDone.includes(el.textContent.trim()))el.classList.add('done');});
+  updateStats();
+}
+
+function td(el){ el.classList.toggle('done'); saveState(); }
 
 function updateStats(){
   const total = document.querySelectorAll('.tc').length;
@@ -454,7 +471,7 @@ function renderAll(){
     html += `<div class="cat-block"><div class="cat-hdr"><div class="cat-name">${cat.name}</div><div class="cat-count">${cat.topics.length} topics</div></div><div class="topic-grid">`;
     cat.topics.forEach(t=>{
       const id = tid++;
-      html += `<div class="tc" id="tc-${id}" onclick="this.classList.toggle('done');updateStats()">
+      html += `<div class="tc" id="tc-${id}" onclick="this.classList.toggle('done');updateStats();saveState()">
         <span class="tc-pri ${t.p==='c'?'p-c':t.p==='i'?'p-i':'p-n'}">${t.p==='c'?'critical':t.p==='i'?'important':'nice to have'}</span>
         <div class="tc-name">${t.n}</div>
         <div class="tc-sub">${t.s}</div>
@@ -479,6 +496,7 @@ function renderQuick(){
 
 renderAll();
 renderQuick();
+restoreState();
 updateStats();
 </script>
 </body>
