@@ -757,9 +757,11 @@ function ScrollManager() {
   return null;
 }
 
-export default function App() {
+// The routed tree, minus the router itself. Kept separate so tests (and any
+// future SSR entry) can mount it inside a MemoryRouter.
+export function AppShell() {
   return (
-    <BrowserRouter>
+    <>
       <ScrollManager />
       <div className="mx-auto max-w-2xl px-6">
         <Header />
@@ -775,6 +777,14 @@ export default function App() {
         </Routes>
         <Footer />
       </div>
+    </>
+  );
+}
+
+export default function App() {
+  return (
+    <BrowserRouter>
+      <AppShell />
     </BrowserRouter>
   );
 }
